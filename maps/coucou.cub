@@ -1,0 +1,17 @@
+
+
+
+F   255,   255    ,     25
+
+NO       ./textures/rainbow.xpm
+SO  ./textures/metal.xpm
+EA   ./textures/tiger.xpm
+WE    ./textures/wood.xpm
+
+
+
+                   C 80, 80, 200
+
+1111111
+1111  0   11
+111 1111
