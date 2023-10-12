@@ -5,7 +5,7 @@ LIBFT	:= ./lib/libft
 
 HEADERS	:= -I ./inc/ -I $(LIBMLX)/include -I $(LIBFT)/inc
 LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= src/main.c \
+SRCS	:= src/main.c src/render.c src/raycaster.c src/keys.c\
 
 OBJS	:= ${SRCS:.c=.o}
 
