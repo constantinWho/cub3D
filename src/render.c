@@ -6,38 +6,35 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:41:20 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/12 09:44:12 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/12 15:33:57 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
 
-int map_grid2[MAP_HEIGHT][MAP_WIDTH] = {
-	{1, 1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 1, 0, 0, 1},
-	{1, 0, 1, 0, 1, 0, 0, 1},
-	{1, 0, 1, 0, 1, 0, 1, 1},
-	{1, 0, 1, 0, 1, 0, 0, 1},
-	{1, 0, 1, 0, 1, 1, 0, 1},
-	{1, 0, 1, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1}
-};
-
-static void	ft_color_map(mlx_image_t *map)
+static void	ft_color_map(t_game *game, int tile_size)
 {
 	int	i;
 	int	y;
 
 	i = 0;
-	while (i < (int)map->width)
+	while (i < (int)game->map->width)
 	{
 		y = 0;
-		while (y < (int)map->height)
+		while (y < (int)game->map->height)
 		{
-			if (i % 64 == 0 || y % 64 == 0)
-				mlx_put_pixel(map, i, y, 0x40739eFF);
-			else if (map_grid2[y / 64][i / 64] == 1)
-				mlx_put_pixel(map, i, y, 0x00a8ffFF);
+			if (i % tile_size == 0 || y % tile_size == 0)
+				mlx_put_pixel(game->map, i, y, 0x40739eFF);
+			else
+			{
+				if (i < game->board->width * tile_size && y < game->board->height * tile_size)
+				{
+					if (game->board->map[y / tile_size][i / tile_size] == '0')
+						mlx_put_pixel(game->map, i, y, CEILING_COLOR);
+					else
+						mlx_put_pixel(game->map, i, y, FLOOR_COLOR);
+				}
+			}
 			y++;
 		}
 		i++;
@@ -80,18 +77,18 @@ static void	ft_color_floor(mlx_image_t *screen)
 	}
 }
 
-static void	ft_draw_player_on_the_map(mlx_image_t *map, int px, int py)
+static void	ft_draw_player_on_the_map(mlx_image_t *map, int px, int py, int ts)
 {
 	int	i;
 	int	y;
 
 	i = 0;
-	while (i < 8)
+	while (i < ts/4)
 	{
 		y = 0;
-		while (y < 8)
+		while (y < ts/4)
 		{
-			mlx_put_pixel(map, i + px - 4, y + py - 4, 0x44bd32FF);
+			mlx_put_pixel(map, i + px - (ts/4)/2, y + py - (ts/4)/2, 0x44bd32FF);
 			y++;
 		}
 		i++;
@@ -107,11 +104,12 @@ void	ft_render(void *param)
 	game = param;
 	map = game->map;
 	screen = game->screen;
+	game->tile_size = 512 / ft_strlen(game->board->map[0]);
 	ft_memset(map->pixels, 0x2f3640FF, map->height * map->width * BPP);
 	ft_memset(screen->pixels, 0, screen->height * screen->width * BPP);
-	ft_color_map(map);
+	ft_color_map(game, game->tile_size);
 	ft_color_ceiling(screen);
 	ft_color_floor(screen);
 	ft_raycaster(game, map, screen);
-	ft_draw_player_on_the_map(map, game->player_x, game->player_y);
+	ft_draw_player_on_the_map(map, game->player_x, game->player_y, game->tile_size);
 }

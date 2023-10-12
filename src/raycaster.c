@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:13:45 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/12 10:23:47 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/12 15:46:24 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_init_ray_vars(t_game *game, t_ray *ray, \
 	mlx_image_t *screen, double dist)
 {
 	ray->perp_distance = dist * cos(ray->angle - game->rotation_angle);
-	ray->wall_height = (screen->height / ray->perp_distance) * 64;
+	ray->wall_height = (screen->height / ray->perp_distance) * game->tile_size;
 	ray->wall_top = (screen->height - ray->wall_height) / 2;
 	ray->wall_bottom = (screen->height + ray->wall_height) / 2;
 	ray->row = ray->wall_top;
@@ -49,9 +49,10 @@ void	ft_put_rays_map(t_game *game, t_ray *ray, mlx_image_t *map, double dist)
 	}
 }
 
-static void	ft_get_ray_distance(t_ray *ray, double *dist, double *max)
+static void	ft_get_ray_distance(t_game *game, t_ray *ray, double *dist, double *max)
 {
-	while (map_grid3[(int)(ray->y / 64)][(int)(ray->x / 64)] == 0 \
+	(void)game;
+	while (game->board->map[(int)(ray->y / game->tile_size)][(int)(ray->x / game->tile_size)] == '0' \
 		&& *dist < *max)
 	{
 		ray->x += cos(ray->angle);
@@ -86,10 +87,10 @@ void	ft_raycaster(t_game *game, mlx_image_t *map, mlx_image_t *screen)
 		ray.x = game->player_x;
 		ray.y = game->player_y;
 		ray_distance = 0;
-		ft_get_ray_distance(&ray, &ray_distance, &max_line_length);
+		ft_get_ray_distance(game, &ray, &ray_distance, &max_line_length);
 		ft_put_rays_map(game, &ray, map, ray_distance);
 		ft_init_ray_vars(game, &ray, screen, ray_distance);
 		ft_draw_wall(game, &ray);
-		ray.angle += 0.002;
+		ray.angle += 0.0005;
 	}
 }

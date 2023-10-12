@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/12 12:46:38 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/12 15:05:53 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 static void init_board(t_board *board)
 {
-	board->mlx_ptr = NULL;
-	board->win_ptr = NULL;
 	board->no = NULL;
 	board->so = NULL;
 	board->we = NULL;
@@ -35,7 +33,6 @@ void print_struc(t_board *board)
 	printf("board->so: %s", board->so);
 	printf("board->we: %s", board->we);
 	printf("board->ea: %s", board->ea);
-
 	printf("board->width: %d\n", board->width);
 	printf("board->height: %d\n", board->height);
  	int j;
@@ -72,7 +69,6 @@ int32_t	main(int argc, char **argv)
 {
 	t_game	game;
 	char	*sub;
-	t_board	*board;
 
 	if (argc != 2)
 		die("Invalid number of arguments!", 0);
@@ -83,23 +79,23 @@ int32_t	main(int argc, char **argv)
 		die("Invalid file type, use .cub!", 0);
 	}
 	free(sub);
-	board = malloc(sizeof(t_board));
-	if (!board)
+	game.board = malloc(sizeof(t_board));
+	if (!game.board)
 			return (ft_error(NULL, "malloc init\n", 0));
-	init_board(board);
-	board->fd = open(argv[1], O_RDONLY);
-	if (board->fd < 0)
-		return (ft_error(board, "File doesn't exit\n", 1));
-	map_reading(board);
-	print_struc(board);
-	check_empty_lines(board);
-	print_struc(board);
-	check_identifier_factor(board->no);
-	check_identifier_factor(board->so);
-	check_identifier_factor(board->we);
-	check_identifier_factor(board->ea);
- 	check_map_walls(board);
-	print_struc(board);
+	init_board(game.board);
+	game.board->fd = open(argv[1], O_RDONLY);
+	if (game.board->fd < 0)
+		return (ft_error(game.board, "File doesn't exit\n", 1));
+	map_reading(game.board);
+	print_struc(game.board);
+	check_empty_lines(game.board);
+	print_struc(game.board);
+	check_identifier_factor(game.board->no);
+	check_identifier_factor(game.board->so);
+	check_identifier_factor(game.board->we);
+	check_identifier_factor(game.board->ea);
+ 	check_map_walls(game.board);
+	print_struc(game.board);
 	/* ++++++++++++++++++++++++++++++++++++++++++++++++ */
 	game.mlx = mlx_init(HEIGHT, WIDTH, "cub3D", false);
 	if (!game.mlx)

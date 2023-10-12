@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/12 12:43:37 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/12 15:51:01 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define BPP sizeof(int32_t)
 # define PI 3.14159265359
 # define FOV 1.0471975512
-# define MOVE_SPEED 3.0
+# define MOVE_SPEED 2.0
 # define CEILING_COLOR 0x7f8fa6FF
 # define FLOOR_COLOR   0x353b48FF
 
@@ -36,8 +36,6 @@
 
 typedef struct s_board
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
 	char	**map;
 	char	*no;
 	char	*so;
@@ -71,8 +69,10 @@ typedef struct s_game
 	mlx_image_t		*screen;
 	int				player_x;
 	int				player_y;
+	int				tile_size;
 	double			rotation_angle;
 	t_ray			ray;
+	t_board			*board;
 }	t_game;
 
 // Raycaster

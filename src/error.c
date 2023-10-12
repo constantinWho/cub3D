@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:21:32 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/12 12:44:13 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/12 13:03:46 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ void	free_array(char **array)
 
 static int	free_map(t_board *board)
 {
-	if (board->mlx_ptr)
-		free(board->mlx_ptr);
-	if (board->win_ptr)
-		free(board->win_ptr);
 	if (board->no)
 		free(board->no);
 	if (board->so)
