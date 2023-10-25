@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:41:20 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/12 15:33:57 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/24 15:42:32 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static void	ft_color_map(t_game *game, int tile_size)
 			{
 				if (i < game->board->width * tile_size && y < game->board->height * tile_size)
 				{
-					if (game->board->map[y / tile_size][i / tile_size] == '0')
+					if (game->board->map[y / tile_size][i / tile_size] == '0' ||
+						game->board->map[y / tile_size][i / tile_size] == game->board->map_face)
 						mlx_put_pixel(game->map, i, y, CEILING_COLOR);
 					else
 						mlx_put_pixel(game->map, i, y, FLOOR_COLOR);
@@ -83,12 +84,13 @@ static void	ft_draw_player_on_the_map(mlx_image_t *map, int px, int py, int ts)
 	int	y;
 
 	i = 0;
-	while (i < ts/4)
+	(void)ts;
+	while (i < 1)
 	{
 		y = 0;
-		while (y < ts/4)
+		while (y < 1)
 		{
-			mlx_put_pixel(map, i + px - (ts/4)/2, y + py - (ts/4)/2, 0x44bd32FF);
+			mlx_put_pixel(map, i + px - 1, y + py - 1, 0x44bd32FF);
 			y++;
 		}
 		i++;
@@ -104,7 +106,7 @@ void	ft_render(void *param)
 	game = param;
 	map = game->map;
 	screen = game->screen;
-	game->tile_size = 512 / ft_strlen(game->board->map[0]);
+	game->tile_size = 512.0 / (double)ft_strlen(game->board->map[0]);
 	ft_memset(map->pixels, 0x2f3640FF, map->height * map->width * BPP);
 	ft_memset(screen->pixels, 0, screen->height * screen->width * BPP);
 	ft_color_map(game, game->tile_size);

@@ -6,22 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:13:45 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/12 15:46:24 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/25 10:47:42 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3D.h"
-
-int map_grid3[MAP_HEIGHT][MAP_WIDTH] = {
-	{1, 1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 0, 1, 0, 0, 1},
-	{1, 0, 1, 0, 1, 0, 0, 1},
-	{1, 0, 1, 0, 1, 0, 1, 1},
-	{1, 0, 1, 0, 1, 0, 0, 1},
-	{1, 0, 1, 0, 1, 1, 0, 1},
-	{1, 0, 1, 0, 0, 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1, 1}
-};
 
 void	ft_init_ray_vars(t_game *game, t_ray *ray, \
 	mlx_image_t *screen, double dist)
@@ -52,8 +41,8 @@ void	ft_put_rays_map(t_game *game, t_ray *ray, mlx_image_t *map, double dist)
 static void	ft_get_ray_distance(t_game *game, t_ray *ray, double *dist, double *max)
 {
 	(void)game;
-	while (game->board->map[(int)(ray->y / game->tile_size)][(int)(ray->x / game->tile_size)] == '0' \
-		&& *dist < *max)
+	while ((game->board->map[(int)(ray->y / (int)game->tile_size)][(int)(ray->x / (int)game->tile_size)] == '0' \
+		 || game->board->map[(int)ray->y / (int)game->tile_size][(int)ray->x / (int)game->tile_size] == game->board->map_face) && *dist < *max)
 	{
 		ray->x += cos(ray->angle);
 		ray->y += sin(ray->angle);

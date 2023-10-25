@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/12 15:51:01 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/25 10:41:32 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,11 @@ typedef struct s_board
 	int		*f;
 	int		fd;
 	int		flag;
-	int		width;
-	int		height;
+	double	width;
+	double	height;
+	char	map_face;
+	double	map_px;
+	double	map_py;
 }	t_board;
 
 typedef struct s_ray
@@ -58,8 +61,8 @@ typedef struct s_ray
 	double	wall_height;
 	double	wall_top;
 	double	wall_bottom;
-	int		row;
-	int		column;
+	double	row;
+	double	column;
 }	t_ray;
 
 typedef struct s_game
@@ -67,9 +70,9 @@ typedef struct s_game
 	mlx_t			*mlx;
 	mlx_image_t		*map;
 	mlx_image_t		*screen;
-	int				player_x;
-	int				player_y;
-	int				tile_size;
+	double			player_x;
+	double			player_y;
+	double			tile_size;
 	double			rotation_angle;
 	t_ray			ray;
 	t_board			*board;
