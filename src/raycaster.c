@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:13:45 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/25 10:47:42 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/27 16:03:21 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ft_init_ray_vars(t_game *game, t_ray *ray, \
 	mlx_image_t *screen, double dist)
 {
 	ray->perp_distance = dist * cos(ray->angle - game->rotation_angle);
-	ray->wall_height = (screen->height / ray->perp_distance) * game->tile_size;
-	ray->wall_top = (screen->height - ray->wall_height) / 2;
-	ray->wall_bottom = (screen->height + ray->wall_height) / 2;
+	ray->wall_height = (game->tile_size / dist) * (screen->height / 2) / tan(FOV / 2);
+	ray->wall_top = (screen->height / 2) - (ray->wall_height / 2);
+	ray->wall_bottom = (screen->height / 2) + (ray->wall_height / 2);
 	ray->row = ray->wall_top;
 	ray->column = (int)(((ray->angle - (game->rotation_angle - FOV / 2)) / FOV) \
 		* screen->width);
@@ -37,7 +37,6 @@ void	ft_put_rays_map(t_game *game, t_ray *ray, mlx_image_t *map, double dist)
 		i++;
 	}
 }
-
 static void	ft_get_ray_distance(t_game *game, t_ray *ray, double *dist, double *max)
 {
 	(void)game;
@@ -55,7 +54,9 @@ static void	ft_draw_wall(t_game *game, t_ray *ray)
 	while (ray->row < ray->wall_bottom)
 	{
 		if (ray->row >= 0 && ray->row < (int)game->screen->height)
-			mlx_put_pixel(game->screen, ray->column, ray->row, 0x3a4b48FF);
+		{
+			mlx_put_pixel(game->screen, ray->column, ray->row, 0x8c7346FF);
+		}
 		(ray->row)++;
 	}
 }
@@ -68,14 +69,13 @@ void	ft_raycaster(t_game *game, mlx_image_t *map, mlx_image_t *screen)
 	double	ray_distance;
 
 	i = 0;
-	ray = game->ray;
 	max_line_length = sqrt(pow(map->width, 2) + pow(map->height, 2));
 	ray.angle = game->rotation_angle - PI / 6;
 	while (ray.angle < game->rotation_angle + FOV / 2)
 	{
 		ray.x = game->player_x;
 		ray.y = game->player_y;
-		ray_distance = 0;
+		ray_distance = sqrt(pow(ray.x - game->player_x, 2) + pow(ray.y - game->player_y, 2));
 		ft_get_ray_distance(game, &ray, &ray_distance, &max_line_length);
 		ft_put_rays_map(game, &ray, map, ray_distance);
 		ft_init_ray_vars(game, &ray, screen, ray_distance);

@@ -1,0 +1,17 @@
+NO ./textures/arbre_north.xpm
+SO ./textures/arbre_south.xpm
+WE ./textures/arbre_west_2.xpm
+EA ./textures/arbre_east_2.xpm
+
+F 220,100,0
+C 225,30,0
+
+
+11111111
+100000W01
+100000001
+100000001
+100000001
+100000001
+100000001
+11111111

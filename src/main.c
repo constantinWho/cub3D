@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/24 15:28:40 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/27 15:06:52 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void print_struc(t_board *board)
 	printf("board->so: %s", board->so);
 	printf("board->we: %s", board->we);
 	printf("board->ea: %s", board->ea);
-	printf("board->width: %d\n", board->width);
-	printf("board->height: %d\n", board->height);
+	printf("board->width: %f\n", board->width);
+	printf("board->height: %f\n", board->height);
  	int j;
 	j = 0;
 	if (board->f)
@@ -140,13 +140,14 @@ int32_t	main(int argc, char **argv)
 	printf("m_px: %f, m_py: %f\n", game.board->map_px, game.board->map_py);
 	game.player_x = (size * (game.board->map_px)) + (size / 2.0);
 	game.player_y = (size * (game.board->map_py)) + (size / 2.0);
-	printf("(%d * %f) + %d\n", 512/game.board->width, game.board->map_px + 1, (512/game.board->width)/2);
+	printf("(%f * %f) + %f\n", 512/game.board->width, game.board->map_px + 1, (512/game.board->width)/2);
 	printf("x: %f, y: %f | %f : %f\n", game.player_x, game.player_y, game.board->map_px, game.board->map_py);
 	game.rotation_angle = 0.0;
 	game.map = mlx_new_image(game.mlx, 512, 512);
-	game.screen = mlx_new_image(game.mlx, 512, 512);
-	mlx_image_to_window(game.mlx, game.map, 0, 0);
-	mlx_image_to_window(game.mlx, game.screen, 512, 0);
+	game.screen = mlx_new_image(game.mlx, 1024, 512);
+	game.texture = mlx_load_png("./square.png");
+	//mlx_image_to_window(game.mlx, game.map, 0, 0);
+	mlx_image_to_window(game.mlx, game.screen, 0, 0);
 	mlx_loop_hook(game.mlx, &ft_render, &game.mlx);
 	mlx_loop_hook(game.mlx, &ft_keys, &game.mlx);
 	mlx_loop(game.mlx);

@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/25 10:41:32 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/27 16:05:39 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_game
 	mlx_t			*mlx;
 	mlx_image_t		*map;
 	mlx_image_t		*screen;
+	mlx_texture_t	*texture;
 	double			player_x;
 	double			player_y;
 	double			tile_size;

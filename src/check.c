@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:09:29 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/12 12:44:35 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/26 11:06:00 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	copy_map(int start, int end, t_board *board)
 	temp = (char **)malloc(sizeof(char *) * (board->height + 2));
 	if (!temp)
 		ft_error(board, "malloc init\n", 1);
-	temp[board->height + 1] = NULL;
+	temp[(int)board->height + 1] = NULL;
 	while (j <= board->height)
 	{
 		temp[j] = board->map[start];

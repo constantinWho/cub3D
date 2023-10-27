@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:43:39 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/12 13:34:02 by chustei          ###   ########.fr       */
+/*   Updated: 2023/10/26 11:06:00 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	add_line(t_board *board, char *line)
 	temporary = (char **)malloc(sizeof(char *) * (board->height + 1));
 	if (!temporary)
 		die("init: malloc", 0);
-	temporary[board->height] = NULL;
+	temporary[(int)board->height] = NULL;
 	while (i < board->height - 1)
 	{
 		temporary[i] = board->map[i];
