@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/27 16:05:39 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/09 13:40:22 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define BPP sizeof(int32_t)
 # define PI 3.14159265359
 # define FOV 1.0471975512
-# define MOVE_SPEED 2.0
+# define MOVE_SPEED 1.0
 # define CEILING_COLOR 0x7f8fa6FF
 # define FLOOR_COLOR   0x353b48FF
 
@@ -55,14 +55,19 @@ typedef struct s_board
 typedef struct s_ray
 {
 	double	angle;
+	double	side;
 	double	x;
 	double	y;
+	double	direction_x;
+	double	direction_y;
 	double	perp_distance;
 	double	wall_height;
 	double	wall_top;
 	double	wall_bottom;
 	double	row;
 	double	column;
+	double	tex_offset_x;
+	double	tex_offset_y;
 }	t_ray;
 
 typedef struct s_game
@@ -73,6 +78,32 @@ typedef struct s_game
 	mlx_texture_t	*texture;
 	double			player_x;
 	double			player_y;
+	double			delta_x;
+	double			delta_y;
+
+	int				map_x;
+	int				map_y;
+	int				step_x;
+	int				step_y;
+	int				side;
+	int				hit;
+	double			dir_x;
+	double			dir_y;
+	double			plane_x;
+	double			plane_y;
+	double			camera_x;
+	double			ray_dir_x;
+	double			ray_dir_y;
+	double			side_dist_x;
+	double			side_dist_y;
+	double			delta_dist_x;
+	double			delta_dist_y;
+	double			perp_wall_dist;
+	double			wall_x;
+	int				line_h;
+	int				draw_start;
+	int				draw_end;
+
 	double			tile_size;
 	double			rotation_angle;
 	t_ray			ray;

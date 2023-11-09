@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/27 15:06:52 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/09 13:13:32 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,28 @@ int	check_map_face(t_board *board)
 {
 	int		found;
 	double	y;
-	double	i;
+	double	x;
 
-	i = 0.0;
+	y = 0.0;
 	found = 0;
-	while (board->map[(int)i])
+	while (board->map[(int)y])
 	{
-		y = 0.0;
-		while (board->map[(int)i][(int)y])
+		x = 0.0;
+		while (board->map[(int)y][(int)x])
 		{
-			if (board->map[(int)i][(int)y] == 'N' || \
-				board->map[(int)i][(int)y] == 'S' || \
-				board->map[(int)i][(int)y] == 'E' || \
-				board->map[(int)i][(int)y] == 'W')
+			if (board->map[(int)y][(int)x] == 'N' || \
+				board->map[(int)y][(int)x] == 'S' || \
+				board->map[(int)y][(int)x] == 'E' || \
+				board->map[(int)y][(int)x] == 'W')
 			{
 				found++;
-				board->map_face = board->map[(int)i][(int)y];
-				board->map_px = y;
-				board->map_py = i;
+				board->map_face = board->map[(int)y][(int)x];
+				board->map_px = x;
+				board->map_py = y;
 			}
-			y++;
+			x++;
 		}
-		i++;
+		y++;
 	}
 
 	return (found);
@@ -137,17 +137,22 @@ int32_t	main(int argc, char **argv)
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
 	double size = 512.0 / game.board->width;
-	printf("m_px: %f, m_py: %f\n", game.board->map_px, game.board->map_py);
-	game.player_x = (size * (game.board->map_px)) + (size / 2.0);
-	game.player_y = (size * (game.board->map_py)) + (size / 2.0);
-	printf("(%f * %f) + %f\n", 512/game.board->width, game.board->map_px + 1, (512/game.board->width)/2);
-	printf("x: %f, y: %f | %f : %f\n", game.player_x, game.player_y, game.board->map_px, game.board->map_py);
+/* 	printf("m_px: %f, m_py: %f\n", game.board->map_px, game.board->map_py); */
+	game.player_x = /* game.board->map_px; */(size * (game.board->map_px)) + (size / 2.0);
+	game.player_y = /* game.board->map_py; */(size * (game.board->map_py)) + (size / 2.0);
+/* 	printf("(%f * %f) + %f\n", 512/game.board->width, game.board->map_px + 1, (512/game.board->width)/2);
+	printf("x: %f, y: %f | %f : %f\n", game.player_x, game.player_y, game.board->map_px, game.board->map_py); */
 	game.rotation_angle = 0.0;
+	game.tile_size = 512.0 / (double)game.board->width;
 	game.map = mlx_new_image(game.mlx, 512, 512);
-	game.screen = mlx_new_image(game.mlx, 1024, 512);
-	game.texture = mlx_load_png("./square.png");
-	//mlx_image_to_window(game.mlx, game.map, 0, 0);
-	mlx_image_to_window(game.mlx, game.screen, 0, 0);
+	game.screen = mlx_new_image(game.mlx, 512, 512);
+	game.texture = mlx_load_png("./texture.png");
+	game.dir_x = 1;
+	game.dir_y = 0;
+	game.plane_x = 0;
+	game.plane_y = 0.66;
+	mlx_image_to_window(game.mlx, game.map, 0, 0);
+	mlx_image_to_window(game.mlx, game.screen, 512, 0);
 	mlx_loop_hook(game.mlx, &ft_render, &game.mlx);
 	mlx_loop_hook(game.mlx, &ft_keys, &game.mlx);
 	mlx_loop(game.mlx);

@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:19:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/24 15:25:25 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/06 15:00:43 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	ft_keys(void *param)
 		game->rotation_angle -= 0.07;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		game->rotation_angle += 0.07;
-	if (game->board->map[(int)new_player_y / (int)game->tile_size][(int)new_player_x / (int)game->tile_size] == '0' ||
-		game->board->map[(int)new_player_y / (int)game->tile_size][(int)new_player_x / (int)game->tile_size] == game->board->map_face)
+	if (game->board->map[(int)new_player_y / (int)game->tile_size][(int)new_player_x / (int)game->tile_size] == '0' || game->board->map[(int)new_player_y / (int)game->tile_size][(int)new_player_x / (int)game->tile_size] == game->board->map_face)
 	{
 		game->player_x = new_player_x;
 		game->player_y = new_player_y;

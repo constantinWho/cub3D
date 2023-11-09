@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:41:20 by chustei           #+#    #+#             */
-/*   Updated: 2023/10/26 11:05:56 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/07 15:05:11 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ static void	ft_draw_player_on_the_map(mlx_image_t *map, int px, int py, int ts)
 
 	i = 0;
 	(void)ts;
-	while (i < 1)
+	while (i < 5)
 	{
 		y = 0;
-		while (y < 1)
+		while (y < 5)
 		{
 			mlx_put_pixel(map, i + px - 1, y + py - 1, 0x44bd32FF);
 			y++;
@@ -106,7 +106,6 @@ void	ft_render(void *param)
 	game = param;
 	map = game->map;
 	screen = game->screen;
-	game->tile_size = 512.0 / (double)ft_strlen(game->board->map[0]);
 	ft_memset(map->pixels, 0x2f3640FF, map->height * map->width * BPP);
 	ft_memset(screen->pixels, 0, screen->height * screen->width * BPP);
 	ft_color_map(game, game->tile_size);
