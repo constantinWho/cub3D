@@ -12,7 +12,7 @@
 
 #include "../inc/cub3D.h"
 
-static int	get_color_ceiling(t_board *board, char **split)
+int	get_color_ceiling(t_board *board, char **split)
 {
 	board->c = (int *)malloc(sizeof(int) * 3);
 	board->c[0] = ft_atoi(split[0]);
@@ -28,23 +28,23 @@ static int	get_color_ceiling(t_board *board, char **split)
 	return (EXIT_SUCCESS);
 }
 
-static int	get_color_floor(t_board *board, char **split)
+int	get_color_floor(t_board *board, char **split)
 {
 	board->f = (int *)malloc(sizeof(int) * 3);
 	board->f[0] = ft_atoi(split[0]);
-	board->f[1] = ft_atoi(split[1]);
+	board->f[1] = ft_atoi(split[1]); 
 	board->f[2] = ft_atoi(split[2]);
 	free_array(split);
 	if (board->f[0] < 0 || board->f[0] > 255)
-		return (ft_error(board, "Color input is invalid\n", 1));
+		return (ft_error(board, "Color number is invalid\n", 1));
 	else if (board->f[1] < 0 || board->f[1] > 255)
-		return (ft_error(board, "Color input is invalid\n", 1));
+		return (ft_error(board, "Color number is invalid\n", 1));
 	else if (board->f[2] < 0 || board->f[2] > 255)
-		return (ft_error(board, "Color input is invalid\n", 1));
+		return (ft_error(board, "Color number is invalid\n", 1));
 	return (EXIT_SUCCESS);
 }
 
-static int	get_colors(t_board *board, char **split, int type)
+int	get_colors(t_board *board, char **split, int type)
 {
 	int	i;
 
@@ -52,7 +52,8 @@ static int	get_colors(t_board *board, char **split, int type)
 	while (split[i] != 0)
 		i++;
 	if (i != 3)
-		return (EXIT_FAILURE);
+		return (ft_error(board, "Color input is invalid, \
+				three numbers needed\n", 1));
 	if (type == 1)
 		return (get_color_floor(board, split));
 	else if (type == 2)
@@ -60,7 +61,7 @@ static int	get_colors(t_board *board, char **split, int type)
 	return (EXIT_SUCCESS);
 }
 
-static int	check_color_comma(t_board *board, char *string, int i)
+int	check_color_comma(t_board *board, char *string, int i)
 {
 	int		comma;
 
@@ -82,24 +83,22 @@ static int	check_color_comma(t_board *board, char *string, int i)
 	return (EXIT_SUCCESS);
 }
 
-int	check_color(t_board *board, char *string, int i, int type)
+int	check_comma_digit(t_board *board, char *string, int i)
 {
-	char	**split;
-	char	*color;
-	int		j;
+	int	count;
 
-	j = ft_strlen(string) - 1;
-	i++;
-	while (string[i] != '\0' && string[i] == ' ')
+	count = 0;
+	while (string[i] != '\0' && string[i] != '\n')
+	{
+		if (string[i] != ',' && string[i] != 32 && !ft_isdigit((int)string[i]))
+			return (ft_error(board, "Color input is invalid \
+						only comma and digits allowed\n", 1));
+		if (ft_isdigit((int)string[i]) && !ft_isdigit((int)string[i + 1]))
+			count++;
 		i++;
-	while (string[j] == ' ')
-		j--;
-	if (check_color_comma(board, string, i))
-		return (EXIT_FAILURE);
-	color = ft_substr(string, i, j - i + 1);
-	split = ft_split(color, ',');
-	free(color);
-	if (get_colors(board, split, type))
-		return (EXIT_FAILURE);
+	}
+	if (count != 3)
+		return (ft_error(board, "Color input is invalid \
+					only three numbers\n", 1));
 	return (EXIT_SUCCESS);
 }

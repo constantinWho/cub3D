@@ -12,6 +12,13 @@
 
 #include "../inc/cub3D.h"
 
+int	no_space(char readline)
+{
+	if (readline != '\n' && readline != ' ')
+		return (0);
+	return (1);
+}
+
 int	is_identifier(char *line, int j)
 {
 	if ((line[j] == 'N' && line[j + 1] == 'O')
@@ -23,10 +30,24 @@ int	is_identifier(char *line, int j)
 	return (1);
 }
 
+static void	assign(t_board *board, int type, char *sub)
+{
+	if (type == 1)
+		board->no = ft_strdup(sub);
+	else if (type == 2)
+		board->so = ft_strdup(sub);
+	else if (type == 3)
+		board->we = ft_strdup(sub);
+	else if (type == 4)
+		board->ea = ft_strdup(sub);
+	free(sub);
+}
+
 static int	extract_path(t_board *board, char *line, int i, int type)
 {
 	int		j;
 	char	*sub;
+	char	*xpm;
 
 	j = ft_strlen(line) - 1;
 	i += 2;
@@ -37,15 +58,15 @@ static int	extract_path(t_board *board, char *line, int i, int type)
 	if (j < i)
 		return (ft_error(board, "Invalid element info\n", 1));
 	sub = ft_substr(line, i, j - i + 1);
-	if (type == 1)
-		board->no = ft_strdup(sub);
-	else if (type == 2)
-		board->so = ft_strdup(sub);
-	else if (type == 3)
-		board->we = ft_strdup(sub);
-	else if (type == 4)
-		board->ea = ft_strdup(sub);
-	free(sub);
+	xpm = ft_substr(sub, ft_strlen(sub) - 5, 5);
+	if (ft_strncmp(xpm, ".xpm", 4) != 0)
+	{
+		free(xpm);
+		return (ft_error(board, "File should end with '.xpm'\n", 1));
+	}
+	free(xpm);
+	assign(board, type, sub);
+	board->flag += 1;
 	return (EXIT_SUCCESS);
 }
 

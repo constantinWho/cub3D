@@ -129,20 +129,21 @@ int32_t	main(int argc, char **argv)
 	check_identifier_factor(game.board->we);
 	check_identifier_factor(game.board->ea);
  	check_map_walls(game.board);
-	if (check_map_face(game.board) != 1)
+	print_struc(game.board);
+	/*if (check_map_face(game.board) != 1)
 		return (ft_error(game.board, "Player doesn't exist\n", 1));
 	print_struc(game.board);
-	/* ++++++++++++++++++++++++++++++++++++++++++++++++ */
-	game.mlx = mlx_init(HEIGHT, WIDTH, "cub3D", false);
+	 ++++++++++++++++++++++++++++++++++++++++++++++++
+	 game.mlx = mlx_init(HEIGHT, WIDTH, "cub3D", false);
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
-	double size = 512.0 / game.board->width;
+	double size = 512.0 / game.board->width; */
 /* 	printf("m_px: %f, m_py: %f\n", game.board->map_px, game.board->map_py); */
-	game.player_x = /* game.board->map_px; */(size * (game.board->map_px)) + (size / 2.0);
-	game.player_y = /* game.board->map_py; */(size * (game.board->map_py)) + (size / 2.0);
-/* 	printf("(%f * %f) + %f\n", 512/game.board->width, game.board->map_px + 1, (512/game.board->width)/2);
-	printf("x: %f, y: %f | %f : %f\n", game.player_x, game.player_y, game.board->map_px, game.board->map_py); */
-	game.rotation_angle = 0.0;
+	// game.player_x = /* game.board->map_px; */(size * (game.board->map_px)) + (size / 2.0);
+	//game.player_y = /* game.board->map_py; */(size * (game.board->map_py)) + (size / 2.0);
+ /* 	printf("(%f * %f) + %f\n", 512/game.board->width, game.board->map_px + 1, (512/game.board->width)/2);
+	//printf("x: %f, y: %f | %f : %f\n", game.player_x, game.player_y, game.board->map_px, game.board->map_py); */
+	/* game.rotation_angle = 0.0;
 	game.tile_size = 512.0 / (double)game.board->width;
 	game.map = mlx_new_image(game.mlx, 512, 512);
 	game.screen = mlx_new_image(game.mlx, 512, 512);
@@ -156,6 +157,6 @@ int32_t	main(int argc, char **argv)
 	mlx_loop_hook(game.mlx, &ft_render, &game.mlx);
 	mlx_loop_hook(game.mlx, &ft_keys, &game.mlx);
 	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx);
+	mlx_terminate(game.mlx); */ 
 	return (EXIT_SUCCESS);
 }

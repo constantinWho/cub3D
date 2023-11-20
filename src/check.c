@@ -65,6 +65,31 @@ static void	copy_map(int start, int end, t_board *board)
 	board->map = temp;
 }
 
+int	check_color(t_board *board, char *string, int i, int type)
+{
+	char	**split;
+	char	*color;
+	int		j;
+
+	j = ft_strlen(string) - 1;
+	i++;
+	while (string[i] != '\0' && string[i] == ' ')
+		i++;
+	while (string[j] == ' ')
+		j--;
+	if (check_comma_digit(board, string, i))
+		return (EXIT_FAILURE);
+	if (check_color_comma(board, string, i))
+		return (EXIT_FAILURE);
+	color = ft_substr(string, i, j - i + 1);
+	split = ft_split(color, ',');
+	free(color);
+	if (get_colors(board, split, type))
+		return (EXIT_FAILURE);
+	board->flag += 1;
+	return (EXIT_SUCCESS);
+}
+
 int	check_empty_lines(t_board *board)
 {
 	int	i;
