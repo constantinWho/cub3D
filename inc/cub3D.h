@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "../lib/MLX42/include/MLX42/MLX42.h"
-# include "../lib/libft/inc/libft.h"
+# include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -116,13 +116,26 @@ void	ft_raycaster(t_game *game, mlx_image_t *map, mlx_image_t *screen);
 void	ft_keys(void* param);
 
 // Parser
-int		map_reading(t_board *board);
-int		check_color(t_board *board, char *string, int i, int type);
+// colors
+int	get_color_ceiling(t_board *board, char **split);
+int	get_color_floor(t_board *board, char **split);
+int	get_colors(t_board *board, char **split, int type);
+int	check_color_comma(t_board *board, char *string, int i);
+int	check_comma_digit(t_board *board, char *string, int i);
+//identifier
 int		is_identifier(char *line, int j);
 int		select_identifier(t_board *board, char *line);
+int		no_space(char readline);
+
+// walls
+int		check_map_walls(t_board *board);
+
+int		map_reading(t_board *board);
+int		check_color(t_board *board, char *string, int i, int type);
+
 int		check_empty_lines(t_board *board);
 int		check_identifier_factor(char *string);
-int		check_map_walls(t_board *board);
+
 void	print_struc(t_board *board);
 void	die(char *errmsg, int errnum);
 void	free_array(char **array);
