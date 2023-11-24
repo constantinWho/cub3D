@@ -6,11 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 14:24:41 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/12 12:44:09 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/24 00:59:24 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3d.h"
 
 int	no_space(char readline)
 {
@@ -59,10 +59,10 @@ static int	extract_path(t_board *board, char *line, int i, int type)
 		return (ft_error(board, "Invalid element info\n", 1));
 	sub = ft_substr(line, i, j - i + 1);
 	xpm = ft_substr(sub, ft_strlen(sub) - 5, 5);
-	if (ft_strncmp(xpm, ".xpm", 4) != 0)
+	if (ft_strncmp(xpm, ".png", 4) != 0)
 	{
 		free(xpm);
-		return (ft_error(board, "File should end with '.xpm'\n", 1));
+		return (ft_error(board, "File should end with '.png'\n", 1));
 	}
 	free(xpm);
 	assign(board, type, sub);

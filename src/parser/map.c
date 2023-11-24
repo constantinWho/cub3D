@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map2.c                                             :+:      :+:    :+:   */
+/*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 14:43:39 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/26 11:06:00 by chustei          ###   ########.fr       */
+/*   Created: 2023/11/20 12:26:42 by mdarbois          #+#    #+#             */
+/*   Updated: 2023/11/23 17:38:13 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3d.h"
 
 static void	width(char *line, t_board *board)
 {
@@ -92,10 +92,12 @@ int	map_reading(t_board *board)
 			i++;
 		if (!is_identifier(readline, i))
 			extract(board, readline, i);
-		if ((board->no && board->so && board->ea && board->we
-				&& board->c && board->f))
-			board->flag = 1;
-		if (board->flag == 1 && is_identifier(readline, i))
+		if (board->flag > 6)
+			return (ft_error(board, "Multiple colors argument\n", 1));
+		if (board->flag != 6 && is_identifier(readline, i)
+			&& !no_space(readline[i]))
+			return (ft_error(board, "Map must be the last element\n", 1));
+		if (is_identifier(readline, i) && !no_space(readline[i]))
 		{
 			if (!add_line(board, readline))
 				break ;
@@ -103,7 +105,5 @@ int	map_reading(t_board *board)
 		readline = get_next_line(board->fd);
 	}
 	close(board->fd);
-	if (board->flag == 0)
-		return (ft_error(board, "Map must come after the identifier\n", 1));
 	return (1);
 }

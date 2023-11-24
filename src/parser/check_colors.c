@@ -6,11 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 15:06:38 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/12 12:44:06 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/24 00:44:27 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3d.h"
 
 int	get_color_ceiling(t_board *board, char **split)
 {
@@ -32,7 +32,7 @@ int	get_color_floor(t_board *board, char **split)
 {
 	board->f = (int *)malloc(sizeof(int) * 3);
 	board->f[0] = ft_atoi(split[0]);
-	board->f[1] = ft_atoi(split[1]); 
+	board->f[1] = ft_atoi(split[1]);
 	board->f[2] = ft_atoi(split[2]);
 	free_array(split);
 	if (board->f[0] < 0 || board->f[0] > 255)

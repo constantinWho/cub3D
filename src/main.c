@@ -6,11 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/09 13:13:32 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/24 16:13:11 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../inc/cub3d.h"
 
 static void init_board(t_board *board)
 {
@@ -28,6 +28,42 @@ static void init_board(t_board *board)
 	board->map_face = 'X';
 	board->map_px = 0;
 	board->map_py = 0;
+}
+
+void	ft_strwrap(t_board *board)
+{
+	board->no = ft_strtrim(board->no, "\n");
+	board->so = ft_strtrim(board->so, "\n");
+	board->we = ft_strtrim(board->we, "\n");
+	board->ea = ft_strtrim(board->ea, "\n");
+}
+
+static void	ft_init_screen(t_game *game)
+{
+	game->screen = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	if (!game->screen)
+		exit(EXIT_FAILURE);
+	printf("x: %f y: %f\n", game->board->map_px, game->board->map_py);
+	game->pos.x = 3.5;
+	game->pos.y = 3.5;
+	game->dir.x = -1;
+	game->dir.y = 0;
+	game->plane.x = 0;
+	game->plane.y = 0.66;
+	game->move_speed = 0.08;
+	game->rot_speed = 0.04;
+	ft_strwrap(game->board);
+	game->north = mlx_load_png(game->board->no);
+	game->south = mlx_load_png(game->board->so);
+	game->west = mlx_load_png(game->board->we);
+	game->east = mlx_load_png(game->board->ea);
+	if (!game->north || !game->south || !game->west || !game->east)
+		exit(EXIT_FAILURE);
+	int i = -1;
+	game->buffer = ft_calloc((HEIGHT), sizeof(uint8_t *));
+	while (++i < HEIGHT)
+		game->buffer[i] = ft_calloc((WIDTH), sizeof(uint8_t *));
+	mlx_image_to_window(game->mlx, game->screen, 0, 0);
 }
 
 void print_struc(t_board *board)
@@ -88,15 +124,39 @@ int	check_map_face(t_board *board)
 			{
 				found++;
 				board->map_face = board->map[(int)y][(int)x];
+				board->map[(int)y][(int)x] = '0';
 				board->map_px = x;
 				board->map_py = y;
+				printf("x: %f y: %f\n", board->map_px, board->map_py);
 			}
 			x++;
 		}
 		y++;
 	}
-
 	return (found);
+}
+
+void	ft_parser(t_game *game, char **argv)
+{
+	game->board = malloc(sizeof(t_board));
+	if (!game->board)
+		ft_error(NULL, "malloc init\n", 0);
+	init_board(game->board);
+	game->board->fd = open(argv[1], O_RDONLY);
+	if (game->board->fd < 0)
+		ft_error(game->board, "File doesn't exit\n", 1);
+	map_reading(game->board);
+	print_struc(game->board);
+	check_empty_lines(game->board);
+	print_struc(game->board);
+	check_identifier_factor(game->board->no);
+	check_identifier_factor(game->board->so);
+	check_identifier_factor(game->board->we);
+	check_identifier_factor(game->board->ea);
+ 	check_map_walls(game->board);
+	print_struc(game->board);
+	if (check_map_face(game->board) != 1)
+		ft_error(game->board, "Player doesn't exist\n", 1);
 }
 
 int32_t	main(int argc, char **argv)
@@ -113,50 +173,38 @@ int32_t	main(int argc, char **argv)
 		die("Invalid file type, use .cub!", 0);
 	}
 	free(sub);
-	game.board = malloc(sizeof(t_board));
-	if (!game.board)
-			return (ft_error(NULL, "malloc init\n", 0));
-	init_board(game.board);
-	game.board->fd = open(argv[1], O_RDONLY);
-	if (game.board->fd < 0)
-		return (ft_error(game.board, "File doesn't exit\n", 1));
-	map_reading(game.board);
-	print_struc(game.board);
-	check_empty_lines(game.board);
-	print_struc(game.board);
-	check_identifier_factor(game.board->no);
-	check_identifier_factor(game.board->so);
-	check_identifier_factor(game.board->we);
-	check_identifier_factor(game.board->ea);
- 	check_map_walls(game.board);
-	print_struc(game.board);
-	/*if (check_map_face(game.board) != 1)
-		return (ft_error(game.board, "Player doesn't exist\n", 1));
-	print_struc(game.board);
-	 ++++++++++++++++++++++++++++++++++++++++++++++++
-	 game.mlx = mlx_init(HEIGHT, WIDTH, "cub3D", false);
+	ft_parser(&game, argv);
+	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3d", false);
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
-	double size = 512.0 / game.board->width; */
-/* 	printf("m_px: %f, m_py: %f\n", game.board->map_px, game.board->map_py); */
-	// game.player_x = /* game.board->map_px; */(size * (game.board->map_px)) + (size / 2.0);
-	//game.player_y = /* game.board->map_py; */(size * (game.board->map_py)) + (size / 2.0);
- /* 	printf("(%f * %f) + %f\n", 512/game.board->width, game.board->map_px + 1, (512/game.board->width)/2);
-	//printf("x: %f, y: %f | %f : %f\n", game.player_x, game.player_y, game.board->map_px, game.board->map_py); */
-	/* game.rotation_angle = 0.0;
-	game.tile_size = 512.0 / (double)game.board->width;
-	game.map = mlx_new_image(game.mlx, 512, 512);
-	game.screen = mlx_new_image(game.mlx, 512, 512);
-	game.texture = mlx_load_png("./texture.png");
-	game.dir_x = 1;
-	game.dir_y = 0;
-	game.plane_x = 0;
-	game.plane_y = 0.66;
-	mlx_image_to_window(game.mlx, game.map, 0, 0);
-	mlx_image_to_window(game.mlx, game.screen, 512, 0);
-	mlx_loop_hook(game.mlx, &ft_render, &game.mlx);
-	mlx_loop_hook(game.mlx, &ft_keys, &game.mlx);
+	ft_init_screen(&game);
+	mlx_image_t *map = mlx_new_image(game.mlx, game.board->width * 10 , game.board->height * 10);
+	if (!map)
+		exit(EXIT_FAILURE);
+	mlx_image_to_window(game.mlx, map, 0, 0);
+	int i = -1;
+	int j;
+	while (++i < (int)map->height)
+	{
+		j = -1;
+		while (++j < (int)map->width)
+		{
+			if (game.board->map[i / 10][j / 10] == '1')
+				mlx_put_pixel(map, j, i, 0xecf0f180);
+			else
+				mlx_put_pixel(map, j, i, 0x2c3e5080);
+		}
+	}
+	int x = -1;
+	while (++x < 5)
+	{
+		int y = -1;
+		while (++y < 5)
+			mlx_put_pixel(map, game.pos.x * 10 + x, game.pos.y * 10 + y, 0x00FF0080);
+	}
+	mlx_loop_hook(game.mlx, &ft_render, &game);
+	mlx_loop_hook(game.mlx, &ft_keys_listener, &game);
 	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx); */ 
-	return (EXIT_SUCCESS);
+	ft_end_game(&game);
+	exit(EXIT_SUCCESS);
 }

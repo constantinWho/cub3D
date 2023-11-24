@@ -1,11 +1,21 @@
 NAME	:= cub3D
-CFLAGS	:= -Wextra -Wall -Werror -g3 -fsanitize=address
+CFLAGS	:= -Wextra -Wall -Werror -g3
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 
 HEADERS	:= -I ./inc/ -I $(LIBMLX)/include -I $(LIBFT)/inc
 LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
-SRCS	:= src/main.c src/render.c src/raycaster.c src/keys.c src/check.c src/error.c src/check_walls.c src/check_colors.c src/map.c src/check_identifier.c\
+SRCS	:=  src/main.c src/ft_end_game.c \
+			src/raycasting/ft_keys_listener.c \
+			src/raycasting/ft_render.c \
+			src/raycasting/ft_wall_to_buffer.c \
+			src/raycasting/ft_render_utils.c \
+			src/parser/error.c \
+			src/parser/check_colors.c \
+			src/parser/check_identifier.c \
+			src/parser/check_walls.c \
+			src/parser/check.c \
+			src/parser/map.c \
 
 OBJS	:= ${SRCS:.c=.o}
 

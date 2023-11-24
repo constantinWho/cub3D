@@ -6,11 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:21:32 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/12 13:03:46 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/23 17:29:37 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3d.h"
 
 void	die(char *errmsg, int errnum)
 {

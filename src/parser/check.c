@@ -6,11 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/02 12:09:29 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/26 11:06:00 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/24 00:55:54 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3d.h"
 
 static size_t	ft_strlen_nospace(const char *s)
 {
@@ -31,10 +31,10 @@ int	check_identifier_factor(char *string)
 
 	fd = 0;
 	sub = ft_substr(string, ft_strlen_nospace(string) - 4, 5);
-	if (ft_strncmp(sub, ".xpm", 4) != 0)
+	if (ft_strncmp(sub, ".png", 4) != 0)
 	{
 		free(sub);
-		printf("Invalid file type, use .xpm!\n");
+		printf("Invalid file type, use .png!\n");
 		return (1);
 	}
 	free(sub);

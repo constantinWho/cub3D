@@ -1,7 +1,7 @@
-NO ./textures/arbre_north.xpm
-SO ./textures/arbre_south.xpm
-WE ./textures/arbre_west_2.xpm
-EA ./textures/arbre_east_2.xpm
+NO ./textures/wall_north.png
+SO ./textures/wall_south.png
+WE ./textures/wall_west.png
+EA ./textures/wall_east.png
 
 F 220,100,0
 C 225,30,0

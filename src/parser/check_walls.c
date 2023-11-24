@@ -6,11 +6,11 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 11:18:30 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/10/12 12:44:10 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/23 17:29:50 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3d.h"
 
 static int	check_first_row(t_board *board)
 {

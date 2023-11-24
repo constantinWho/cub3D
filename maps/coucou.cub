@@ -3,10 +3,10 @@
 
 F   255,   255    ,     25
 
-NO       ./textures/rainbow.xpm
-SO  ./textures/metal.xpm
-EA   ./textures/tiger.xpm
-WE    ./textures/wood.xpm
+NO       ./textures/rainbow.png
+SO  ./textures/metal.png
+EA   ./textures/tiger.png
+WE    ./textures/wood.png
 
 
 
