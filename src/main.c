@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/24 16:13:11 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/24 18:11:46 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,46 @@ void	ft_strwrap(t_board *board)
 	board->ea = ft_strtrim(board->ea, "\n");
 }
 
+static void	ft_set_viewpoint(t_game *game)
+{
+	if (game->board->map_face == 'N')
+	{
+		game->dir.x = -1;
+		game->dir.y = 0;
+		game->plane.x = 0;
+		game->plane.y = 0.66;
+	}
+	else if (game->board->map_face == 'S')
+	{
+		game->dir.x = 1;
+		game->dir.y = 0;
+		game->plane.x = 0;
+		game->plane.y = -0.66;
+	}
+	else if (game->board->map_face == 'E')
+	{
+		game->dir.x = 0;
+		game->dir.y = 1;
+		game->plane.x = 0.66;
+		game->plane.y = 0;
+	}
+	else if (game->board->map_face == 'W')
+	{
+		game->dir.x = 0;
+		game->dir.y = -1;
+		game->plane.x = -0.66;
+		game->plane.y = 0;
+	}
+}
+
 static void	ft_init_screen(t_game *game)
 {
 	game->screen = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->screen)
 		exit(EXIT_FAILURE);
-	printf("x: %f y: %f\n", game->board->map_px, game->board->map_py);
-	game->pos.x = 3.5;
-	game->pos.y = 3.5;
-	game->dir.x = -1;
-	game->dir.y = 0;
-	game->plane.x = 0;
-	game->plane.y = 0.66;
+	game->pos.x = game->board->map_py + 0.5;
+	game->pos.y = game->board->map_px + 0.5;
+	ft_set_viewpoint(game);
 	game->move_speed = 0.08;
 	game->rot_speed = 0.04;
 	ft_strwrap(game->board);
@@ -63,10 +91,14 @@ static void	ft_init_screen(t_game *game)
 	game->buffer = ft_calloc((HEIGHT), sizeof(uint8_t *));
 	while (++i < HEIGHT)
 		game->buffer[i] = ft_calloc((WIDTH), sizeof(uint8_t *));
+	game->world_map = mlx_new_image(game->mlx, game->board->width * 11 , game->board->height * 11);
+	if (!game->world_map)
+		exit(EXIT_FAILURE);
 	mlx_image_to_window(game->mlx, game->screen, 0, 0);
+	mlx_image_to_window(game->mlx, game->world_map, 0, 0);
 }
 
-void print_struc(t_board *board)
+/* void print_struc(t_board *board)
 {
 	printf("board->no: %s", board->no );
 	printf("board->so: %s", board->so);
@@ -102,7 +134,7 @@ void print_struc(t_board *board)
 			j++;
 		}
 	}
-}
+} */
 
 int	check_map_face(t_board *board)
 {
@@ -127,7 +159,6 @@ int	check_map_face(t_board *board)
 				board->map[(int)y][(int)x] = '0';
 				board->map_px = x;
 				board->map_py = y;
-				printf("x: %f y: %f\n", board->map_px, board->map_py);
 			}
 			x++;
 		}
@@ -146,17 +177,42 @@ void	ft_parser(t_game *game, char **argv)
 	if (game->board->fd < 0)
 		ft_error(game->board, "File doesn't exit\n", 1);
 	map_reading(game->board);
-	print_struc(game->board);
 	check_empty_lines(game->board);
-	print_struc(game->board);
 	check_identifier_factor(game->board->no);
 	check_identifier_factor(game->board->so);
 	check_identifier_factor(game->board->we);
 	check_identifier_factor(game->board->ea);
  	check_map_walls(game->board);
-	print_struc(game->board);
 	if (check_map_face(game->board) != 1)
 		ft_error(game->board, "Player doesn't exist\n", 1);
+}
+
+void	ft_render_map(void *param)
+{
+	t_game	*game;
+	int		i;
+	int		j;
+
+	game = param;
+	i = -1;
+	while (++i < (int)game->world_map->height)
+	{
+		j = -1;
+		while (++j < (int)game->world_map->width)
+		{
+			if (game->board->map[i / 11][j / 11] == '1')
+				mlx_put_pixel(game->world_map, j, i, 0xecf0f180);
+			else
+				mlx_put_pixel(game->world_map, j, i, 0x2c3e5080);
+		}
+	}
+	i = -1;
+	while (++i < 5)
+	{
+		j = -1;
+		while (++j < 5)
+			mlx_put_pixel(game->world_map, (game->pos.y * 11 + i ) - 2.5, (game->pos.x * 11 + j) - 2.5, 0x00FF0080);
+	}
 }
 
 int32_t	main(int argc, char **argv)
@@ -178,31 +234,8 @@ int32_t	main(int argc, char **argv)
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
 	ft_init_screen(&game);
-	mlx_image_t *map = mlx_new_image(game.mlx, game.board->width * 10 , game.board->height * 10);
-	if (!map)
-		exit(EXIT_FAILURE);
-	mlx_image_to_window(game.mlx, map, 0, 0);
-	int i = -1;
-	int j;
-	while (++i < (int)map->height)
-	{
-		j = -1;
-		while (++j < (int)map->width)
-		{
-			if (game.board->map[i / 10][j / 10] == '1')
-				mlx_put_pixel(map, j, i, 0xecf0f180);
-			else
-				mlx_put_pixel(map, j, i, 0x2c3e5080);
-		}
-	}
-	int x = -1;
-	while (++x < 5)
-	{
-		int y = -1;
-		while (++y < 5)
-			mlx_put_pixel(map, game.pos.x * 10 + x, game.pos.y * 10 + y, 0x00FF0080);
-	}
 	mlx_loop_hook(game.mlx, &ft_render, &game);
+	mlx_loop_hook(game.mlx, &ft_render_map, &game);
 	mlx_loop_hook(game.mlx, &ft_keys_listener, &game);
 	mlx_loop(game.mlx);
 	ft_end_game(&game);

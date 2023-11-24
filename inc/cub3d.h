@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/24 01:30:00 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/24 17:57:00 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_game
 {
 	mlx_t			*mlx;
 	mlx_image_t		*screen;
-
+	mlx_image_t		*world_map;
 	t_vector		pos;
 	t_vector		dir;
 	t_vector		plane;
