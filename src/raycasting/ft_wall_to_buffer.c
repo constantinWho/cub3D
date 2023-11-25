@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/24 16:35:41 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/25 03:34:04 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	ft_init_rays(t_game *game, int x)
 
 void	ft_get_tex_x(t_game *game, int *tex_x)
 {
-	(*tex_x) = (int)(game->wall_x * (double)texWidth);
+	(*tex_x) = (int)(game->wall_x * (double)TEX_WIDTH);
 	if (game->side == 0 && game->ray_dir.x > 0)
-		(*tex_x) = texWidth - *tex_x - 1;
+		(*tex_x) = TEX_WIDTH - *tex_x - 1;
 	if (game->side == 1 && game->ray_dir.y < 0)
-		(*tex_x) = texWidth - *tex_x - 1;
+		(*tex_x) = TEX_WIDTH - *tex_x - 1;
 }
 
 void	ft_get_tex_pixels(t_game *game, int y, int x, int tex_x)
@@ -46,12 +46,12 @@ void	ft_get_tex_pixels(t_game *game, int y, int x, int tex_x)
 	int		tex_y;
 	t_point	cord;
 
-	step = 1.0 * texHeight / game->line_height;
+	step = 1.0 * TEX_HEIGHT / game->line_height;
 	tex_pos = (game->draw_start - HEIGHT / 2 + game->line_height / 2) * step;
 	y = game->draw_start - 1;
 	while (++y < game->draw_end)
 	{
-		tex_y = (int)tex_pos & (texHeight - 1);
+		tex_y = (int)tex_pos & (TEX_HEIGHT - 1);
 		tex_pos += step;
 		cord.x = tex_x;
 		cord.y = tex_y;

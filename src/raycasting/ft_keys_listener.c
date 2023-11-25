@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 03:27:50 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/24 02:56:12 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/25 02:13:08 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,20 @@ static void	ft_move_y_axis(t_game *g, double ms)
 {
 	if (mlx_is_key_down(g->mlx, MLX_KEY_W))
 	{
-		if (g->board->map[(int)(g->pos.x + g->dir.x * ms)][(int)(g->pos.y)] == '0')
+		if (g->board->map[(int)(g->pos.x + g->dir.x * ms)][(int)(g->pos.y)] \
+			== '0')
 			g->pos.x += g->dir.x * ms;
-		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y + g->dir.y * ms)] == '0')
+		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y + g->dir.y * ms)] \
+			== '0')
 			g->pos.y += g->dir.y * ms;
 	}
 	if (mlx_is_key_down(g->mlx, MLX_KEY_S))
 	{
-		if (g->board->map[(int)(g->pos.x - g->dir.x * ms)][(int)(g->pos.y)] == '0')
+		if (g->board->map[(int)(g->pos.x - g->dir.x * ms)][(int)(g->pos.y)] \
+			== '0')
 			g->pos.x -= g->dir.x * ms;
-		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y - g->dir.y * ms)] == '0')
+		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y - g->dir.y * ms)] \
+			== '0')
 			g->pos.y -= g->dir.y * ms;
 	}
 }
@@ -56,16 +60,20 @@ static void	ft_move_x_axis(t_game *g, double ms)
 {
 	if (mlx_is_key_down(g->mlx, MLX_KEY_D))
 	{
-		if (g->board->map[(int)(g->pos.x + g->dir.y * ms)][(int)(g->pos.y)] == '0')
+		if (g->board->map[(int)(g->pos.x + g->dir.y * ms)][(int)(g->pos.y)] \
+			== '0')
 			g->pos.x += g->dir.y * ms;
-		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y - g->dir.x * ms)] == '0')
+		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y - g->dir.x * ms)] \
+			== '0')
 			g->pos.y -= g->dir.x * ms;
 	}
 	if (mlx_is_key_down(g->mlx, MLX_KEY_A))
 	{
-		if (g->board->map[(int)(g->pos.x - g->dir.y * ms)][(int)(g->pos.y)] == '0')
+		if (g->board->map[(int)(g->pos.x - g->dir.y * ms)][(int)(g->pos.y)] \
+			== '0')
 			g->pos.x -= g->dir.y * ms;
-		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y + g->dir.x * ms)] == '0')
+		if (g->board->map[(int)(g->pos.x)][(int)(g->pos.y + g->dir.x * ms)] \
+			== '0')
 			g->pos.y += g->dir.x * ms;
 	}
 }

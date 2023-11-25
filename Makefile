@@ -6,6 +6,9 @@ LIBFT	:= ./lib/libft
 HEADERS	:= -I ./inc/ -I $(LIBMLX)/include -I $(LIBFT)/inc
 LIBS	:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 SRCS	:=  src/main.c src/ft_end_game.c \
+			src/ft_init_screen.c \
+			src/ft_init_viewpoint.c \
+			src/ft_render_map.c \
 			src/raycasting/ft_keys_listener.c \
 			src/raycasting/ft_render.c \
 			src/raycasting/ft_wall_to_buffer.c \

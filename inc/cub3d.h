@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/24 17:57:00 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/25 03:33:26 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@
 # include <string.h>
 # define WIDTH 1024
 # define HEIGHT 512
-# define texWidth 1024
-# define texHeight 1024
-# define mapWidth 8
-# define mapHeight 8
+# define TEX_WIDTH 1024
+# define TEX_HEIGHT 1024
 
 typedef struct s_board
 {
@@ -51,13 +49,13 @@ typedef struct s_vector
 {
 	double	x;
 	double	y;
-} t_vector;
+}	t_vector;
 
 typedef struct s_point
 {
 	int	x;
 	int	y;
-} t_point;
+}	t_point;
 
 typedef struct s_game
 {
@@ -93,38 +91,43 @@ typedef struct s_game
 	uint32_t		color_c;
 	uint32_t		color_f;
 	t_board			*board;
-} t_game;
+}	t_game;
 
-// Raycasting
-void		ft_keys_listener(void *param);
-void		ft_render(void *param);
+// INIT
+void		ft_init_screen(t_game *g);
+void		ft_set_viewpoint(t_game *game);
+// END
+void		ft_end_game(t_game *game);
+// RAYCASTING
 void		ft_wall_to_buffer(t_game *game);
-uint32_t	get_image_color(mlx_texture_t *texture, t_point p);
 void		ft_calc_step_and_side_dist(t_game *game);
 void		ft_dda(t_game *game);
 void		ft_calc_lines(t_game *game);
-void		ft_end_game(t_game *game);
-
-// Parser
-// colors
+// RENDER
+uint32_t	get_image_color(mlx_texture_t *texture, t_point p);
+void		ft_render(void *param);
+void		ft_render_map(void *param);
+// KEYS
+void		ft_keys_listener(void *param);
+// COLORS
 int			get_color_ceiling(t_board *board, char **split);
 int			get_color_floor(t_board *board, char **split);
 int			get_colors(t_board *board, char **split, int type);
 int			check_color_comma(t_board *board, char *string, int i);
 int			check_comma_digit(t_board *board, char *string, int i);
-//identifier
+// IDENTIFIER
 int			is_identifier(char *line, int j);
 int			select_identifier(t_board *board, char *line);
 int			no_space(char readline);
-// walls
+// WALLS
+void		print_struc(t_board *board);
+void		die(char *errmsg, int errnum);
+void		free_array(char **array);
 int			check_map_walls(t_board *board);
 int			map_reading(t_board *board);
 int			check_color(t_board *board, char *string, int i, int type);
 int			check_empty_lines(t_board *board);
 int			check_identifier_factor(char *string);
-void		print_struc(t_board *board);
-void		die(char *errmsg, int errnum);
-void		free_array(char **array);
 int			ft_error(t_board *board, char *str, int i);
 
 #endif
