@@ -27,8 +27,21 @@ static void	ft_load_textures(t_game *game)
 	game->west = mlx_load_png(game->board->we);
 	game->east = mlx_load_png(game->board->ea);
 	if (!game->north || !game->south || !game->west || !game->east)
-		exit(EXIT_FAILURE);
+		ft_error(game->board, "textures wrong", 1);;
 }
+
+/* void	ft_check_path_textures(t_game *game)
+{
+	printf("%s\n", game->board->no);
+	if (open(game->board->no, O_RDONLY) < 0)
+		ft_error(game->board, "North textures wrong", 1);
+	if (open(game->board->so, O_RDONLY) < 0)
+		ft_error(game->board, "South textures wrong", 1);
+	if (open(game->board->we, O_RDONLY) < 0)
+		ft_error(game->board, "West textures wrong", 1);
+	if (open(game->board->ea, O_RDONLY) < 0)
+		ft_error(game->board, "East textures wrong", 1);
+} */
 
 void	ft_init_screen(t_game *g)
 {

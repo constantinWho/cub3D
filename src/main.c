@@ -94,7 +94,8 @@ int32_t	main(int argc, char **argv)
 	}
 	free(sub);
 	ft_parser(&game, argv);
-	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3d", false);
+/* 	ft_check_path_textures(&game);
+ */	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
 	ft_init_screen(&game);
@@ -103,6 +104,7 @@ int32_t	main(int argc, char **argv)
 	mlx_loop_hook(game.mlx, &ft_keys_listener, &game);
 	mlx_loop(game.mlx);
 	ft_end_game(&game);
+	free_map(game.board);
 	exit(EXIT_SUCCESS);
 }
 
