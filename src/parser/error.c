@@ -44,7 +44,7 @@ void	free_array(char **array)
 	free(array);
 }
 
-static int	free_map(t_board *board)
+int	free_map(t_board *board)
 {
 	if (board->no)
 		free(board->no);
@@ -66,7 +66,7 @@ static int	free_map(t_board *board)
 
 int	ft_error(t_board *board, char *str, int i)
 {
-	ft_putstr_fd("Error:", 2);
+	ft_putstr_fd("Error: ", 2);
 	if (str)
 		ft_putstr_fd(str, STDERR_FILENO);
 	if (i == 1)
