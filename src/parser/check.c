@@ -32,15 +32,11 @@ int	check_identifier_factor(char *string)
 	fd = 0;
 	sub = ft_substr(string, ft_strlen_nospace(string) - 4, 5);
 	if (ft_strncmp(sub, ".png", 4) != 0)
-	{
-		free(sub);
-		printf("Invalid file type, use .png!\n");
-		return (1);
-	}
+		return (free(sub), free(string), 3);
 	free(sub);
 	fd = open(string, O_RDONLY);
 	if (fd < 0)
-		return (1);
+		return (2);
 	return (0);
 }
 
@@ -61,7 +57,7 @@ static void	copy_map(int start, int end, t_board *board)
 		j++;
 		start++;
 	}
-	free(board->map);
+	free_board(board);
 	board->map = temp;
 }
 

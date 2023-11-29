@@ -6,14 +6,14 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/25 03:33:26 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/27 18:22:47 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "../lib/MLX42/include/MLX42/MLX42.h"
-# include "../lib/libft/inc/libft.h"
+# include "../lib/libft/include/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -98,6 +98,7 @@ void		ft_init_screen(t_game *g);
 void		ft_set_viewpoint(t_game *game);
 // END
 void		ft_end_game(t_game *game);
+int			free_map(t_board *board);
 // RAYCASTING
 void		ft_wall_to_buffer(t_game *game);
 void		ft_calc_step_and_side_dist(t_game *game);
@@ -123,11 +124,11 @@ int			no_space(char readline);
 void		print_struc(t_board *board);
 void		die(char *errmsg, int errnum);
 void		free_array(char **array);
+void		free_board(t_board *board);
 int			check_map_walls(t_board *board);
 int			map_reading(t_board *board);
 int			check_color(t_board *board, char *string, int i, int type);
 int			check_empty_lines(t_board *board);
 int			check_identifier_factor(char *string);
 int			ft_error(t_board *board, char *str, int i);
-
 #endif

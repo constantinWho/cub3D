@@ -6,42 +6,58 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:21:32 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/11/23 17:29:37 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/29 05:21:07 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-void	die(char *errmsg, int errnum)
-{
-	if (errmsg != 0 && errnum != 0)
-		ft_putendl_fd("Error", 2);
-	if (errmsg != 0)
-		ft_putstr_fd(errmsg, 2);
-	if (errmsg != 0 && errnum != 0)
-		ft_putstr_fd(": ", 2);
-	if (errnum != 0)
-		ft_putstr_fd(strerror(errnum), 2);
-	if (errmsg != 0 || errnum != 0)
-	{
-		ft_putendl_fd("", 2);
-		exit(1);
-	}
-	exit(0);
-}
 
 void	free_array(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (array[i] != 0)
+	if (array)
 	{
-		if (array[i] != NULL)
-			free(array[i]);
-		i++;
+		while (array[i])
+		{
+			if (array[i])
+			{
+				free(array[i]);
+				array[i] = NULL;
+			}
+			i++;
+		}
+		free(array);
+		array = NULL;
 	}
-	free(array);
+}
+
+void	free_board(t_board *board)
+{
+	int	i;
+
+	i = 0;
+	if (board->map)
+	{
+		while (board->map[i])
+		{
+			if (board->map[i])
+			{
+				free(board->map[i]);
+				board->map[i] = NULL;
+			}
+			i++;
+		}
+		free(board->map);
+		board->map = NULL;
+	}
+}
+
+static void	free_ptr(void *ptr)
+{
+	free(ptr);
+	ptr = NULL;
 }
 
 int	free_map(t_board *board)
@@ -55,12 +71,16 @@ int	free_map(t_board *board)
 	if (board->ea)
 		free(board->ea);
 	if (board->c)
-		free(board->c);
+		free_ptr(board->c);
 	if (board->f)
-		free(board->f);
+		free_ptr(board->f);
 	if (board->map)
-		free_array(board->map);
-	free(board);
+		free_board(board);
+	if (board)
+	{
+		free(board);
+		board = NULL;
+	}
 	exit(1);
 }
 

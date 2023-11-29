@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 12:26:42 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/11/23 17:38:13 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/27 19:29:03 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static void	width(char *line, t_board *board)
 	width = ft_strlen(line) - 1;
 	if (board->width < width)
 		board->width = width;
-	if (board->map)
-		free(board->map);
 }
 
 static int	add_line(t_board *board, char *line)
@@ -35,14 +33,17 @@ static int	add_line(t_board *board, char *line)
 	board->height++;
 	temporary = (char **)malloc(sizeof(char *) * (board->height + 1));
 	if (!temporary)
-		die("init: malloc", 0);
+		ft_error(board, "init: malloc", 1);
 	temporary[(int)board->height] = NULL;
 	while (i < board->height - 1)
 	{
-		temporary[i] = board->map[i];
+		temporary[i] = ft_strdup(board->map[i]);
+		free(board->map[i]);
+		board->map[i] = NULL;
 		i++;
 	}
-	temporary[i] = line;
+	free(board->map);
+	temporary[i] = ft_strdup(line);
 	width(line, board);
 	board->map = temporary;
 	return (1);
@@ -102,8 +103,8 @@ int	map_reading(t_board *board)
 			if (!add_line(board, readline))
 				break ;
 		}
+		free(readline);
 		readline = get_next_line(board->fd);
 	}
-	close(board->fd);
 	return (1);
 }

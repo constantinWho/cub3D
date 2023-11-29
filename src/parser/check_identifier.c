@@ -60,10 +60,8 @@ static int	extract_path(t_board *board, char *line, int i, int type)
 	sub = ft_substr(line, i, j - i + 1);
 	xpm = ft_substr(sub, ft_strlen(sub) - 5, 5);
 	if (ft_strncmp(xpm, ".png", 4) != 0)
-	{
-		free(xpm);
-		return (ft_error(board, "File should end with '.png'\n", 1));
-	}
+		return (free(sub), free(xpm), \
+			ft_error(board, "File should end with '.png'\n", 1));
 	free(xpm);
 	assign(board, type, sub);
 	board->flag += 1;

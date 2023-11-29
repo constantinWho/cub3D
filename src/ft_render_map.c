@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/25 02:22:09 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/25 03:31:42 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/27 18:25:04 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	ft_render_map(void *param)
 		j = -1;
 		while (++j < (int)game->world_map->width)
 		{
+			if (!game->board->map[i / 11][j / 11])
+				break ;
 			if (game->board->map[i / 11][j / 11])
 			{
 				if (game->board->map[i / 11][j / 11] == '1')

@@ -6,11 +6,29 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/25 03:07:35 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/29 05:18:16 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+void	die(char *errmsg, int errnum)
+{
+	if (errmsg != 0 && errnum != 0)
+		ft_putendl_fd("Error", 2);
+	if (errmsg != 0)
+		ft_putstr_fd(errmsg, 2);
+	if (errmsg != 0 && errnum != 0)
+		ft_putstr_fd(": ", 2);
+	if (errnum != 0)
+		ft_putstr_fd(strerror(errnum), 2);
+	if (errmsg != 0 || errnum != 0)
+	{
+		ft_putendl_fd("", 2);
+		exit(1);
+	}
+	exit(0);
+}
 
 static void	init_board(t_board *board)
 {
@@ -69,14 +87,48 @@ static void	ft_parser(t_game *game, char **argv)
 	if (game->board->fd < 0)
 		ft_error(game->board, "File doesn't exit\n", 1);
 	map_reading(game->board);
-	check_empty_lines(game->board);
-	check_identifier_factor(game->board->no);
-	check_identifier_factor(game->board->so);
-	check_identifier_factor(game->board->we);
-	check_identifier_factor(game->board->ea);
-	check_map_walls(game->board);
+	close(game->board->fd);
 	if (check_map_face(game->board) != 1)
 		ft_error(game->board, "Player doesn't exist\n", 1);
+	check_empty_lines(game->board);
+	if (check_identifier_factor(game->board->no) == 3)
+		ft_error(game->board, "NO: Invalid file type, use .png!\n", 1);
+	if (check_identifier_factor(game->board->so) == 3)
+		ft_error(game->board, "SO: Invalid file type, use .png!\n", 1);
+	if (check_identifier_factor(game->board->we) == 3)
+		ft_error(game->board, "WE: Invalid file type, use .png!\n", 1);
+	if (check_identifier_factor(game->board->ea) == 3)
+		ft_error(game->board, "EA: Invalid file type, use .png!\n", 1);
+	check_map_walls(game->board);
+}
+
+
+static void	ft_strwrap(t_board *board)
+{
+	board->no = ft_strtrim(board->no, "\n");
+	board->so = ft_strtrim(board->so, "\n");
+	board->we = ft_strtrim(board->we, "\n");
+	board->ea = ft_strtrim(board->ea, "\n");
+}
+
+static void	ft_load_textures(t_game *game)
+{
+	game->north = mlx_load_png(game->board->no);
+	game->south = mlx_load_png(game->board->so);
+	game->west = mlx_load_png(game->board->we);
+	game->east = mlx_load_png(game->board->ea);
+	if (!game->north || !game->south || !game->west || !game->east)
+	{
+		if (game->north)
+			mlx_delete_texture(game->north);
+		if (game->south)
+			mlx_delete_texture(game->south);
+		if (game->west)
+			mlx_delete_texture(game->west);
+		if (game->east)
+			mlx_delete_texture(game->east);
+		ft_error(game->board, "textures file wrong", 1);
+	}
 }
 
 int32_t	main(int argc, char **argv)
@@ -94,8 +146,9 @@ int32_t	main(int argc, char **argv)
 	}
 	free(sub);
 	ft_parser(&game, argv);
-/* 	ft_check_path_textures(&game);
- */	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
+	ft_strwrap(game.board);
+	ft_load_textures(&game);
+	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
 	ft_init_screen(&game);
@@ -107,15 +160,23 @@ int32_t	main(int argc, char **argv)
 	free_map(game.board);
 	exit(EXIT_SUCCESS);
 }
-
-/* void print_struc(t_board *board)
+/*
+void print_struc(t_board *board)
 {
-	printf("board->no: %s", board->no );
-	printf("board->so: %s", board->so);
-	printf("board->we: %s", board->we);
-	printf("board->ea: %s", board->ea);
-	printf("board->width: %f\n", board->width);
-	printf("board->height: %f\n", board->height);
+	if (board)
+{
+	if(board->no)
+		printf("board->no: %s", board->no );
+	if(board->so)
+		printf("board->so: %s", board->so);
+	if(board->we)
+		printf("board->we: %s", board->we);
+	if(board->ea)
+		printf("board->ea: %s", board->ea);
+	if(board->width)
+		printf("board->width: %f\n", board->width);
+	if(board->height)
+		printf("board->height: %f\n", board->height);
  	int j;
 	j = 0;
 	if (board->f)
@@ -143,5 +204,6 @@ int32_t	main(int argc, char **argv)
 			printf("board->map[%d]: %s", j, board->map[j]);
 			j++;
 		}
-	}
-} */
+	}}
+}
+ */
