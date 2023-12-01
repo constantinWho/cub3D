@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/24 01:46:43 by chustei          ###   ########.fr       */
+/*   Updated: 2023/12/01 15:53:09 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	ft_buffer_to_screen(t_game *game)
 	{
 		x = -1;
 		while (++x < WIDTH)
-			mlx_put_pixel(game->screen, x, y, game->buffer[y][x]);
+			ft_put_pixel(game->screen, x, y, game->buffer[y][x]);
 	}
 	y = -1;
 	while (++y < HEIGHT)

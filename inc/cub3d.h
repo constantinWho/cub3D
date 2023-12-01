@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 12:54:22 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/27 18:22:47 by chustei          ###   ########.fr       */
+/*   Updated: 2023/12/01 15:59:03 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void		ft_calc_lines(t_game *game);
 uint32_t	get_image_color(mlx_texture_t *texture, t_point p);
 void		ft_render(void *param);
 void		ft_render_map(void *param);
+void		ft_put_pixel(mlx_image_t *image, uint32_t x, \
+			uint32_t y, uint32_t color);
 // KEYS
 void		ft_keys_listener(void *param);
 // COLORS
@@ -132,5 +134,5 @@ int			check_empty_lines(t_board *board);
 int			check_identifier_factor(char *string);
 int			ft_error(t_board *board, char *str, int i);
 void		free_ptr(void *ptr);
-int		read_check(t_board *board, char *readline, int i);
+int			read_check(t_board *board, char *readline, int i);
 #endif

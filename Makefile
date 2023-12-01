@@ -9,6 +9,7 @@ SRCS	:=  src/main.c src/ft_end_game.c \
 			src/ft_init_screen.c \
 			src/ft_init_viewpoint.c \
 			src/ft_render_map.c \
+			src/raycasting/ft_put_pixel.c \
 			src/raycasting/ft_keys_listener.c \
 			src/raycasting/ft_render.c \
 			src/raycasting/ft_wall_to_buffer.c \
