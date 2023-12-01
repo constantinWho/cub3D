@@ -30,7 +30,7 @@ int	check_identifier_factor(char *string)
 	char	*sub;
 
 	fd = 0;
-	sub = ft_substr(string, ft_strlen_nospace(string) - 4, 5);
+	sub = ft_substr(string, ft_strlen_nospace(string) - 3, 4);
 	if (ft_strncmp(sub, ".png", 4) != 0)
 		return (free(sub), free(string), 3);
 	free(sub);

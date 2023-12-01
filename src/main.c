@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:02:32 by chustei           #+#    #+#             */
-/*   Updated: 2023/11/29 05:18:16 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/27 19:20:25 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ static void	ft_parser(t_game *game, char **argv)
 	if (game->board->fd < 0)
 		ft_error(game->board, "File doesn't exit\n", 1);
 	map_reading(game->board);
+	check_empty_lines(game->board);
 	close(game->board->fd);
 	if (check_map_face(game->board) != 1)
 		ft_error(game->board, "Player doesn't exist\n", 1);
-	check_empty_lines(game->board);
 	if (check_identifier_factor(game->board->no) == 3)
 		ft_error(game->board, "NO: Invalid file type, use .png!\n", 1);
 	if (check_identifier_factor(game->board->so) == 3)
@@ -100,35 +100,6 @@ static void	ft_parser(t_game *game, char **argv)
 	if (check_identifier_factor(game->board->ea) == 3)
 		ft_error(game->board, "EA: Invalid file type, use .png!\n", 1);
 	check_map_walls(game->board);
-}
-
-
-static void	ft_strwrap(t_board *board)
-{
-	board->no = ft_strtrim(board->no, "\n");
-	board->so = ft_strtrim(board->so, "\n");
-	board->we = ft_strtrim(board->we, "\n");
-	board->ea = ft_strtrim(board->ea, "\n");
-}
-
-static void	ft_load_textures(t_game *game)
-{
-	game->north = mlx_load_png(game->board->no);
-	game->south = mlx_load_png(game->board->so);
-	game->west = mlx_load_png(game->board->we);
-	game->east = mlx_load_png(game->board->ea);
-	if (!game->north || !game->south || !game->west || !game->east)
-	{
-		if (game->north)
-			mlx_delete_texture(game->north);
-		if (game->south)
-			mlx_delete_texture(game->south);
-		if (game->west)
-			mlx_delete_texture(game->west);
-		if (game->east)
-			mlx_delete_texture(game->east);
-		ft_error(game->board, "textures file wrong", 1);
-	}
 }
 
 int32_t	main(int argc, char **argv)
@@ -146,8 +117,6 @@ int32_t	main(int argc, char **argv)
 	}
 	free(sub);
 	ft_parser(&game, argv);
-	ft_strwrap(game.board);
-	ft_load_textures(&game);
 	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
@@ -156,12 +125,12 @@ int32_t	main(int argc, char **argv)
 	mlx_loop_hook(game.mlx, &ft_render_map, &game);
 	mlx_loop_hook(game.mlx, &ft_keys_listener, &game);
 	mlx_loop(game.mlx);
-	ft_end_game(&game);
 	free_map(game.board);
+	ft_end_game(&game);
 	exit(EXIT_SUCCESS);
 }
-/*
-void print_struc(t_board *board)
+
+/*  void print_struc(t_board *board)
 {
 	if (board)
 {
@@ -205,5 +174,4 @@ void print_struc(t_board *board)
 			j++;
 		}
 	}}
-}
- */
+}  */

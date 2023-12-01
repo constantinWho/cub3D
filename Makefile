@@ -19,6 +19,7 @@ SRCS	:=  src/main.c src/ft_end_game.c \
 			src/parser/check_walls.c \
 			src/parser/check.c \
 			src/parser/map.c \
+			src/parser/utils.c
 
 OBJS	:= ${SRCS:.c=.o}
 

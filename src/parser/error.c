@@ -6,7 +6,7 @@
 /*   By: chustei <chustei@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:21:32 by mdarbois          #+#    #+#             */
-/*   Updated: 2023/11/29 05:21:07 by chustei          ###   ########.fr       */
+/*   Updated: 2023/11/27 19:21:32 by chustei          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,25 @@ void	free_board(t_board *board)
 	}
 }
 
-static void	free_ptr(void *ptr)
+void	free_ptr(void *ptr)
 {
-	free(ptr);
-	ptr = NULL;
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
 }
 
 int	free_map(t_board *board)
 {
 	if (board->no)
-		free(board->no);
+		free_ptr(board->no);
 	if (board->so)
-		free(board->so);
+		free_ptr(board->so);
 	if (board->we)
-		free(board->we);
+		free_ptr(board->we);
 	if (board->ea)
-		free(board->ea);
+		free_ptr(board->ea);
 	if (board->c)
 		free_ptr(board->c);
 	if (board->f)

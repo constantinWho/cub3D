@@ -56,10 +56,14 @@ static int	extract_color(t_board *board, char *line)
 	i = 0;
 	while (line[i] != '\0' && line[i] == ' ')
 		i++;
-	if (line[i] == 'F')
+	if (line[i] == 'F' && board->f == NULL)
 		return (check_color(board, line, i, 1));
-	else if (line[i] == 'C')
+	else if (line[i] == 'F' && board->f != NULL)
+		return (ft_error(board, "Double elements (F)\n", 1));
+	else if (line[i] == 'C' && board->c == NULL)
 		return (check_color(board, line, i, 2));
+	else if (line[i] == 'C' && board->c != NULL)
+		return (ft_error(board, "Double elements (C)\n", 1));
 	return (EXIT_FAILURE);
 }
 
@@ -93,11 +97,10 @@ int	map_reading(t_board *board)
 			i++;
 		if (!is_identifier(readline, i))
 			extract(board, readline, i);
-		if (board->flag > 6)
-			return (ft_error(board, "Multiple colors argument\n", 1));
-		if (board->flag != 6 && is_identifier(readline, i)
-			&& !no_space(readline[i]))
-			return (ft_error(board, "Map must be the last element\n", 1));
+		if (board->flag != 6)
+			read_check(board, readline, i);
+		if (is_identifier(readline, i) && (readline[i] == '\n' && board->map))
+			return (ft_error(board, "Empty lines in map\n", 1));
 		if (is_identifier(readline, i) && !no_space(readline[i]))
 		{
 			if (!add_line(board, readline))
@@ -106,5 +109,6 @@ int	map_reading(t_board *board)
 		free(readline);
 		readline = get_next_line(board->fd);
 	}
+	free(readline);
 	return (1);
 }

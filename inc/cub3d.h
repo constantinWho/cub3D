@@ -131,4 +131,6 @@ int			check_color(t_board *board, char *string, int i, int type);
 int			check_empty_lines(t_board *board);
 int			check_identifier_factor(char *string);
 int			ft_error(t_board *board, char *str, int i);
+void		free_ptr(void *ptr);
+int		read_check(t_board *board, char *readline, int i);
 #endif

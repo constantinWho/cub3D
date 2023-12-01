@@ -14,7 +14,7 @@
 
 int	no_space(char readline)
 {
-	if (readline != '\n' && readline != ' ')
+	if (readline != ' ' && readline != '\n')
 		return (0);
 	return (1);
 }
@@ -30,7 +30,7 @@ int	is_identifier(char *line, int j)
 	return (1);
 }
 
-static void	assign(t_board *board, int type, char *sub)
+static int	assign(t_board *board, int type, char *sub)
 {
 	if (type == 1)
 		board->no = ft_strdup(sub);
@@ -40,7 +40,7 @@ static void	assign(t_board *board, int type, char *sub)
 		board->we = ft_strdup(sub);
 	else if (type == 4)
 		board->ea = ft_strdup(sub);
-	free(sub);
+	return (1);
 }
 
 static int	extract_path(t_board *board, char *line, int i, int type)
@@ -57,13 +57,14 @@ static int	extract_path(t_board *board, char *line, int i, int type)
 		j--;
 	if (j < i)
 		return (ft_error(board, "Invalid element info\n", 1));
-	sub = ft_substr(line, i, j - i + 1);
-	xpm = ft_substr(sub, ft_strlen(sub) - 5, 5);
+	sub = ft_substr(line, i, j - i);
+	xpm = ft_substr(sub, ft_strlen(sub) - 4, 4);
 	if (ft_strncmp(xpm, ".png", 4) != 0)
 		return (free(sub), free(xpm), \
 			ft_error(board, "File should end with '.png'\n", 1));
 	free(xpm);
 	assign(board, type, sub);
+	free(sub);
 	board->flag += 1;
 	return (EXIT_SUCCESS);
 }
